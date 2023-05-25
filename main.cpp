@@ -89,7 +89,7 @@ int main() {
 		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\building.jpg",
 		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\butterfly.jpg",
 		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\chicky_512.png",
-		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\HappyFish.jpg",
+		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\graf1.png",
 		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\orange.jpg"
 	};
 
@@ -98,9 +98,10 @@ int main() {
 	Mat imagemCinza;					// Variavel para criar uma copia cinza da imagem original.
 	Mat_<Vec3b> imagemMatriz;			// Variavel utilizada para criar uma matriz de imagem.
 	imagemMatriz = imread(nomeArquivo);	// Transforma a imagem em matriz.
-
-
+	Mat imagemBlur;
+	
 	int opcao = 0;	// Opcao do menu.
+
 
 	cout << "\n=== Menu ===";
 	cout << "\n1. Exibir a imagem";
@@ -109,54 +110,84 @@ int main() {
 	cout << "\n4. Propriedades da imagem cinza";
 	cout << "\n5. Exibir 10 imagens com propriedades";
 	cout << "\n6. Histograma";
-	
+	cout << "\n7. Filtros";
+
 	cout << "\nDigite sua opcao: ";
 	cin >> opcao;
 
-	/*
-	while (opcao < 1 || opcao > 5) {
+
+	while (opcao < 1 || opcao > 7) {
 		cout << "\n Opcao invalida, digite novamente: ";
 		cin >> opcao;
 	}
-	*/
-	switch (opcao) {
-		case 1:
-			imshow("Imagem", imagem);	// Funcao utilizada para realizar a exibicao da imagem.
-			waitKey();					// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
-			break;
-		case 2:
-			cvtColor(imagem, imagemCinza, COLOR_BGR2GRAY);	// Copia a imagem original, torna cinza e salva na nova variavel.
-			imshow("Imagem colorida", imagem);		// Exibe a imagem colorida.
-			imshow("Imagem Cinza", imagemCinza);	// Exibe a imagem preto e branco.
-			waitKey();	// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
-			break;
-		case 3:
-			cout << "\nLargura da imagem: " << imagem.cols;	// Funcao utilizada para retornar o numero de colunas na imagem.
-			cout << "\nAltura da imagem: " << imagem.rows << "\n\n\n";	// Funcao utilizada para retornar o numero de linhas na imagem.
-			imshow("Imagem", imagem);	// Funcao utilizada para realizar a exibicao da imagem.
-			waitKey();	// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
-			break;
-		case 4:
-			pixels(imagem, imagemCinza);
-			break;
-		case 5:
-			for (int j = 0; j < 10; j++) {
-				cout << "=== Imagem " << j+1 << " ====";
-				imagem = imread(enderecos[j]);
-				pixels(imagem, imagemCinza);
-				cout << "\n\n\n";
-			};
-			break;
-			
-		case 6:
-			for (int j = 0; j < 10; j++) {
-				cout << "\n=== Imagem " << j + 1 << " ====";
-				imagem = imread(enderecos[j]);
-				criarHistograma(imagem);
-			};
-			break;
-	}
 
+	switch (opcao) {
+	case 1:
+		imshow("Imagem", imagem);	// Funcao utilizada para realizar a exibicao da imagem.
+		waitKey();					// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
+		break;
+	case 2:
+		cvtColor(imagem, imagemCinza, COLOR_BGR2GRAY);	// Copia a imagem original, torna cinza e salva na nova variavel.
+		imshow("Imagem colorida", imagem);		// Exibe a imagem colorida.
+		imshow("Imagem Cinza", imagemCinza);	// Exibe a imagem preto e branco.
+		waitKey();	// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
+		break;
+	case 3:
+		cout << "\nLargura da imagem: " << imagem.cols;	// Funcao utilizada para retornar o numero de colunas na imagem.
+		cout << "\nAltura da imagem: " << imagem.rows << "\n\n\n";	// Funcao utilizada para retornar o numero de linhas na imagem.
+		imshow("Imagem", imagem);	// Funcao utilizada para realizar a exibicao da imagem.
+		waitKey();	// Funcao para a imagem ficar aberta ate o usuario pressionar alguma tecla.
+		break;
+	case 4:
+		pixels(imagem, imagemCinza);
+		break;
+	case 5:
+		for (int j = 0; j < 10; j++) {
+			cout << "=== Imagem " << j + 1 << " ====";
+			imagem = imread(enderecos[j]);
+			pixels(imagem, imagemCinza);
+			cout << "\n\n\n";
+		};
+		break;
+
+	case 6:
+		for (int j = 0; j < 10; j++) {
+			cout << "\n=== Imagem " << j + 1 << " ====";
+			imagem = imread(enderecos[j]);
+			imshow("Imagem", imagem);
+			criarHistograma(imagem);
+		};
+		break;
+	case 7:
+		int vetorKernel[3];
+		int opcaoFiltro = 0;
+		String vetorNomes[3] = { "Primeiro Kernel", "Segundo Kernel", "Terceiro Kernel"};
+		cout << "\n\n=== Menu de Filtros ===";
+		cout << "\n1. Blur";
+
+		cout << "\nOpcao: ";
+		cin >> opcaoFiltro;
+		if (opcaoFiltro == 1) {
+			cout << "Digite o primeiro valor para o kernel: ";
+			cin >> vetorKernel[0];
+
+			cout << "Digite o segundo valor para o kernel: ";
+			cin >> vetorKernel[1];
+
+			cout << "Digite o terceiro valor para o kernel: ";
+			cin >> vetorKernel[2];
+
+			imshow("Imagem original", imagem);
+			for (int z = 0; z < 3; z++) {
+				blur(imagem, imagemBlur, Size(vetorKernel[z], vetorKernel[z]));
+				imshow(vetorNomes[z], imagemBlur);
+				waitKey();
+			}
+			waitKey();
+		}
+		
+		break;
+	}
 
 	return 0;
 }
