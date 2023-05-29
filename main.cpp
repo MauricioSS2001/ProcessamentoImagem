@@ -78,7 +78,7 @@ void criarHistograma(Mat imagem) {
 int main() {
 	
 	// Variavel responssavel por armazenar o endereco da imagem.
-	auto nomeArquivo = "C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\detect_blob.png";
+	auto nomeArquivo = "C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\graf1.png";
 
 	const char* enderecos[10] = {
 		"C:\\Program Files (x86)\\OpenCV\\opencv\\sources\\samples\\data\\aloeL.jpg",
@@ -99,6 +99,8 @@ int main() {
 	Mat_<Vec3b> imagemMatriz;			// Variavel utilizada para criar uma matriz de imagem.
 	imagemMatriz = imread(nomeArquivo);	// Transforma a imagem em matriz.
 	Mat imagemBlur;
+	Mat imagemConvolucao;
+	Mat imagemErosao;
 	
 	int opcao = 0;	// Opcao do menu.
 
@@ -164,6 +166,8 @@ int main() {
 		String vetorNomes[3] = { "Primeiro Kernel", "Segundo Kernel", "Terceiro Kernel"};
 		cout << "\n\n=== Menu de Filtros ===";
 		cout << "\n1. Blur";
+		cout << "\n2. Filtro de Convolucao";
+		cout << "\n3. Erosao";
 
 		cout << "\nOpcao: ";
 		cin >> opcaoFiltro;
@@ -181,6 +185,42 @@ int main() {
 			for (int z = 0; z < 3; z++) {
 				blur(imagem, imagemBlur, Size(vetorKernel[z], vetorKernel[z]));
 				imshow(vetorNomes[z], imagemBlur);
+				waitKey();
+			}
+			waitKey();
+		}
+		else if (opcaoFiltro == 2) {
+			cout << "Digite o primeiro valor para o kernel: ";
+			cin >> vetorKernel[0];
+
+			cout << "Digite o segundo valor para o kernel: ";
+			cin >> vetorKernel[1];
+
+			cout << "Digite o terceiro valor para o kernel: ";
+			cin >> vetorKernel[2];
+
+			imshow("Imagem original", imagem);
+			for (int z = 0; z < 3; z++) {
+				filter2D(imagem, imagemConvolucao, -1, vetorKernel[z]);
+				imshow(vetorNomes[z], imagemConvolucao);
+				waitKey();
+			}
+			waitKey();
+		}
+		else if (opcaoFiltro == 3) {
+			cout << "Digite o primeiro valor para o kernel: ";
+			cin >> vetorKernel[0];
+
+			cout << "Digite o segundo valor para o kernel: ";
+			cin >> vetorKernel[1];
+
+			cout << "Digite o terceiro valor para o kernel: ";
+			cin >> vetorKernel[2];
+
+			imshow("Imagem original", imagem);
+			for (int z = 0; z < 3; z++) {
+				erode(imagem, imagemErosao, vetorKernel[z]);
+				imshow(vetorNomes[z], imagemErosao);
 				waitKey();
 			}
 			waitKey();
