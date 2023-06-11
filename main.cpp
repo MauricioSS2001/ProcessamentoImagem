@@ -26,14 +26,14 @@ void pixels(Mat imagem, Mat imagemCinza) {
 	cout << "\n\n";
 
 	float atual = 0;
-	float contadordomarcos = 0.0;
+	float contadorporcentagem = 0.0;
 	int contadorimpressao = 0;
 	for (contadorimpressao; contadorimpressao < 256; contadorimpressao++) {
 		atual = float(vetor[contadorimpressao]) / float(imagemCinza.rows * imagemCinza.cols);
 		cout << "\nGrau de " << contadorimpressao << ": " << atual;
-		contadordomarcos += atual;
+		contadorporcentagem += atual;
 	}
-	cout << "\nContagem: " << contadordomarcos * 100;
+	cout << "\nContagem: " << contadorporcentagem * 100;
 	imshow("Imagem Cinza", imagemCinza);
 	waitKey();
 }
